@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sairam Peravalli – Senior Android Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #060d07;
+    --bg2: #0b1410;
+    --bg3: #0f1a12;
+    --surface: #132018;
+    --surface2: #192b1e;
+    --green: #22c55e;
+    --green-dim: #16a34a;
+    --green-glow: rgba(34,197,94,0.15);
+    --green-faint: rgba(34,197,94,0.07);
+    --text: #e6f4e9;
+    --text-muted: #7a9e82;
+    --text-dim: #445c49;
+    --border: rgba(34,197,94,0.11);
+    --border-bright: rgba(34,197,94,0.28);
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-body: 'Inter', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; overflow-x: hidden; }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg2); }
+  ::-webkit-scrollbar-thumb { background: var(--green-dim); border-radius: 2px; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: rgba(6,13,7,0.88); backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 60px;
+  }
+  .nav-logo { font-family: var(--font-mono); font-size: 1rem; font-weight: 700; color: var(--green); letter-spacing: 0.05em; }
+  .nav-logo span { color: var(--text-muted); font-weight: 400; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-family: var(--font-mono); font-size: 0.73rem; font-weight: 500; color: var(--text-muted); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--green); }
+
+  /* HERO */
+  #hero { min-height: 100vh; display: flex; align-items: center; padding: 80px 8% 60px; position: relative; overflow: hidden; }
+  #hero::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 100%);
+    pointer-events: none;
+  }
+  #hero::after {
+    content: ''; position: absolute; width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(34,197,94,0.07) 0%, transparent 70%);
+    top: 5%; left: 2%; pointer-events: none;
+  }
+  .hero-inner { position: relative; z-index: 1; max-width: 860px; }
+  .hero-eyebrow {
+    font-family: var(--font-mono); font-size: 0.73rem; font-weight: 500; color: var(--green);
+    letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.2rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .hero-eyebrow::before { content: ''; display: inline-block; width: 32px; height: 1px; background: var(--green); }
+  .blink { animation: blink-dot 1.4s ease-in-out infinite; }
+  @keyframes blink-dot { 0%,100%{opacity:1} 50%{opacity:0.2} }
+  .hero-title { font-family: var(--font-display); font-size: clamp(2.6rem, 5.5vw, 4.8rem); font-weight: 700; line-height: 1.06; letter-spacing: -0.03em; margin-bottom: 1.5rem; }
+  .hero-title .green { color: var(--green); }
+  .hero-subtitle { font-size: 1.05rem; color: var(--text-muted); max-width: 580px; margin-bottom: 2.5rem; line-height: 1.75; font-weight: 300; }
+  .hero-stats { display: flex; gap: 2.5rem; margin-bottom: 3rem; flex-wrap: wrap; }
+  .stat { display: flex; flex-direction: column; }
+  .stat-num { font-family: var(--font-mono); font-size: 2rem; font-weight: 700; color: var(--green); line-height: 1; }
+  .stat-label { font-size: 0.68rem; color: var(--text-dim); letter-spacing: 0.07em; text-transform: uppercase; margin-top: 0.25rem; font-family: var(--font-mono); }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--green); color: #030a05; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; padding: 0.75rem 1.6rem; border-radius: 4px; text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; transition: background 0.2s, transform 0.15s; border: none; cursor: pointer; }
+  .btn-primary:hover { background: #4ade80; transform: translateY(-2px); }
+  .btn-ghost { display: inline-flex; align-items: center; gap: 0.5rem; background: transparent; color: var(--green); font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; padding: 0.75rem 1.6rem; border-radius: 4px; border: 1px solid var(--border-bright); text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; transition: all 0.2s; cursor: pointer; }
+  .btn-ghost:hover { background: var(--green-faint); border-color: var(--green); transform: translateY(-2px); }
+
+  /* phone */
+  .hero-visual { position: absolute; right: 6%; top: 50%; transform: translateY(-50%); opacity: 0.9; }
+  .phone-frame { width: 175px; height: 355px; border: 2px solid var(--border-bright); border-radius: 28px; background: var(--surface); position: relative; box-shadow: 0 0 70px rgba(34,197,94,0.09), inset 0 0 40px rgba(34,197,94,0.03); animation: float 4s ease-in-out infinite; }
+  .phone-notch { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 58px; height: 6px; background: var(--border-bright); border-radius: 3px; }
+  .phone-screen { position: absolute; inset: 30px 12px 20px; background: var(--bg2); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; gap: 5px; padding: 8px; }
+  .screen-label { font-family: var(--font-mono); font-size: 0.5rem; color: var(--green); opacity: 0.6; letter-spacing: 0.1em; }
+  .screen-bar { height: 7px; border-radius: 4px; background: linear-gradient(90deg, var(--green), transparent); animation: pbar 2.5s ease-in-out infinite; }
+  .screen-bar:nth-child(3){width:80%;animation-delay:.3s;opacity:.7}
+  .screen-bar:nth-child(4){width:60%;animation-delay:.6s;opacity:.5}
+  .screen-bar:nth-child(5){width:90%;animation-delay:.9s;opacity:.6}
+  @keyframes pbar{0%,100%{opacity:.6}50%{opacity:1}}
+  .screen-chip { margin-top: 4px; background: var(--surface2); border: 1px solid var(--border); border-radius: 5px; padding: 5px 7px; display: flex; align-items: center; gap: 5px; }
+  .screen-chip-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: blink-dot 1.5s ease-in-out infinite; }
+  .screen-chip-text { font-family: var(--font-mono); font-size: 0.45rem; color: var(--text-muted); }
+  .screen-dots { display: flex; gap: 4px; justify-content: center; margin-top: 6px; }
+  .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); opacity: 0.4; animation: blink-dot 1.5s ease-in-out infinite; }
+  .dot:nth-child(2){animation-delay:.3s}.dot:nth-child(3){animation-delay:.6s}
+  @keyframes float{0%,100%{transform:translateY(-50%) translateY(0)}50%{transform:translateY(-50%) translateY(-12px)}}
+
+  /* SECTIONS */
+  section { padding: 96px 8%; border-top: 1px solid var(--border); }
+  .section-eyebrow { font-family: var(--font-mono); font-size: 0.7rem; font-weight: 500; color: var(--green); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .section-title { font-family: var(--font-display); font-size: clamp(1.7rem, 3vw, 2.6rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+  .section-sub { color: var(--text-muted); font-size: 0.96rem; max-width: 540px; margin-bottom: 3.5rem; font-weight: 300; }
+
+  /* ABOUT */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+  .about-text p { color: var(--text-muted); font-weight: 300; line-height: 1.8; margin-bottom: 1rem; font-size: 0.96rem; }
+  .about-text p strong { color: var(--text); font-weight: 500; }
+  .about-chips { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 1.5rem; }
+  .chip { font-family: var(--font-mono); font-size: 0.7rem; font-weight: 500; color: var(--green); background: var(--green-faint); border: 1px solid var(--border); padding: 0.28rem 0.7rem; border-radius: 2px; letter-spacing: 0.05em; }
+  .about-meta { display: flex; flex-direction: column; gap: 1rem; }
+  .meta-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.1rem 1.4rem; transition: border-color 0.2s; }
+  .meta-card:hover { border-color: var(--border-bright); }
+  .meta-card-label { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.35rem; }
+  .meta-card-value { font-size: 0.93rem; font-weight: 500; color: var(--text); }
+  .meta-card-sub { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.12rem; font-weight: 300; }
+  .about-counters { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; margin-top: 0.5rem; }
+  .counter-box { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; text-align: center; }
+  .counter-num { font-family: var(--font-mono); font-size: 1.55rem; font-weight: 700; color: var(--green); line-height: 1; }
+  .counter-label { font-size: 0.65rem; color: var(--text-dim); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 0.3rem; font-family: var(--font-mono); }
+
+  /* SKILLS */
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1.4rem; }
+  .skill-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; transition: border-color 0.25s, transform 0.2s, box-shadow 0.25s; }
+  .skill-card:hover { border-color: var(--border-bright); transform: translateY(-4px); box-shadow: 0 14px 44px rgba(34,197,94,0.07); }
+  .skill-card-icon { width: 34px; height: 34px; background: var(--green-faint); border: 1px solid var(--border); border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-bottom: 0.9rem; font-size: 0.95rem; }
+  .skill-card-title { font-family: var(--font-display); font-size: 0.88rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--text); }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .skill-tag { font-family: var(--font-mono); font-size: 0.66rem; color: var(--text-muted); background: var(--bg3); border: 1px solid var(--border); padding: 0.18rem 0.5rem; border-radius: 2px; }
+
+  /* EXPERIENCE */
+  .exp-timeline { display: flex; flex-direction: column; }
+  .exp-item { display: grid; grid-template-columns: 170px 1px 1fr; gap: 0 2rem; padding-bottom: 3.5rem; }
+  .exp-item:last-child { padding-bottom: 0; }
+  .exp-date-col { text-align: right; padding-top: 0.1rem; }
+  .exp-date { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim); letter-spacing: 0.05em; line-height: 1.6; }
+  .exp-company { font-family: var(--font-mono); font-size: 0.73rem; color: var(--green); margin-top: 0.3rem; font-weight: 600; }
+  .exp-location { font-family: var(--font-mono); font-size: 0.64rem; color: var(--text-dim); margin-top: 0.15rem; }
+  .exp-line { position: relative; width: 1px; background: var(--border); }
+  .exp-line::before { content: ''; position: absolute; top: 6px; left: 50%; transform: translateX(-50%); width: 9px; height: 9px; border-radius: 50%; background: var(--green); box-shadow: 0 0 14px rgba(34,197,94,0.7); }
+  .exp-role { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; margin-bottom: 0.25rem; }
+  .exp-context { font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-dim); letter-spacing: 0.05em; margin-bottom: 0.7rem; }
+  .exp-bullets { list-style: none; margin-bottom: 1.1rem; display: flex; flex-direction: column; gap: 0.35rem; }
+  .exp-bullets li { font-size: 0.84rem; color: var(--text-muted); padding-left: 1.2rem; position: relative; line-height: 1.65; font-weight: 300; }
+  .exp-bullets li::before { content: '▸'; position: absolute; left: 0; color: var(--green); font-size: 0.68rem; top: 0.17rem; }
+  .exp-bullets li strong { color: var(--text); font-weight: 500; }
+  .exp-tech { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .tech-tag { font-family: var(--font-mono); font-size: 0.65rem; color: var(--green); background: var(--green-faint); border: 1px solid var(--border); padding: 0.18rem 0.52rem; border-radius: 2px; }
+  .exp-stats { display: flex; gap: 2rem; margin-bottom: 1.1rem; flex-wrap: wrap; }
+  .exp-stat { display: flex; flex-direction: column; }
+  .exp-stat-num { font-family: var(--font-mono); font-size: 1.25rem; font-weight: 700; color: var(--green); line-height: 1; }
+  .exp-stat-lbl { font-size: 0.63rem; color: var(--text-dim); letter-spacing: 0.06em; text-transform: uppercase; font-family: var(--font-mono); }
+
+  /* EDUCATION */
+  .edu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.4rem; }
+  .edu-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.8rem; transition: border-color 0.25s, transform 0.2s; }
+  .edu-card:hover { border-color: var(--border-bright); transform: translateY(-3px); }
+  .edu-card-badge { font-family: var(--font-mono); font-size: 0.63rem; font-weight: 600; color: var(--green); background: var(--green-faint); border: 1px solid var(--border); padding: 0.22rem 0.55rem; border-radius: 2px; display: inline-block; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.9rem; }
+  .edu-degree { font-family: var(--font-display); font-size: 1rem; font-weight: 700; margin-bottom: 0.25rem; }
+  .edu-school { font-family: var(--font-mono); font-size: 0.75rem; color: var(--green); margin-bottom: 0.25rem; }
+  .edu-years { font-size: 0.75rem; color: var(--text-dim); font-family: var(--font-mono); margin-bottom: 0.8rem; }
+  .edu-highlights { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; }
+  .edu-highlights li { font-size: 0.8rem; color: var(--text-muted); padding-left: 1rem; position: relative; line-height: 1.5; font-weight: 300; }
+  .edu-highlights li::before { content: '✓'; position: absolute; left: 0; color: var(--green); font-size: 0.68rem; }
+
+  /* CERTIFICATIONS */
+  .certs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.2rem; }
+  .cert-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.3rem; display: flex; gap: 1rem; align-items: flex-start; transition: border-color 0.25s, transform 0.2s; }
+  .cert-card:hover { border-color: var(--border-bright); transform: translateY(-3px); }
+  .cert-icon { width: 40px; height: 40px; border-radius: 8px; background: var(--green-faint); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .cert-title { font-family: var(--font-display); font-size: 0.88rem; font-weight: 600; margin-bottom: 0.2rem; }
+  .cert-issuer { font-family: var(--font-mono); font-size: 0.7rem; color: var(--green); margin-bottom: 0.2rem; }
+  .cert-date { font-size: 0.72rem; color: var(--text-dim); font-family: var(--font-mono); }
+
+  /* SKILLS PLATFORMS */
+  .platforms-row { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 3rem; }
+  .platform-badge { display: flex; align-items: center; gap: 0.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem 1.1rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); transition: border-color 0.2s, color 0.2s; }
+  .platform-badge:hover { border-color: var(--border-bright); color: var(--green); }
+  .platform-badge span { font-size: 1rem; }
+
+  /* CONTACT */
+  .contact-wrapper { display: grid; grid-template-columns: 1fr 1.2fr; gap: 5rem; }
+  .contact-intro { color: var(--text-muted); font-size: 0.93rem; line-height: 1.8; font-weight: 300; margin-bottom: 1.2rem; }
+  .contact-items { display: flex; flex-direction: column; gap: 0.85rem; }
+  .contact-item { display: flex; align-items: flex-start; gap: 0.75rem; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.95rem 1.2rem; transition: border-color 0.2s; }
+  .contact-item:hover { border-color: var(--border-bright); }
+  .contact-item-icon { width: 30px; height: 30px; background: var(--green-faint); border: 1px solid var(--border); border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; flex-shrink: 0; }
+  .contact-item-label { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.12rem; }
+  .contact-item-value { font-size: 0.87rem; color: var(--text); }
+  .contact-item-sub { font-size: 0.73rem; color: var(--text-muted); font-weight: 300; }
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.35rem; }
+  .form-label { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; }
+  .form-input, .form-textarea { background: var(--surface); border: 1px solid var(--border); border-radius: 5px; color: var(--text); font-family: var(--font-body); font-size: 0.87rem; padding: 0.65rem 0.85rem; outline: none; transition: border-color 0.2s; resize: vertical; }
+  .form-input::placeholder, .form-textarea::placeholder { color: var(--text-dim); }
+  .form-input:focus, .form-textarea:focus { border-color: var(--green); }
+  .form-textarea { min-height: 130px; }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--border); padding: 2.5rem 8%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+  .footer-name { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; }
+  .footer-name span { color: var(--green); }
+  .footer-sub { font-size: 0.75rem; color: var(--text-dim); font-family: var(--font-mono); margin-top: 0.12rem; }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--green); }
+  .footer-copy { font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-dim); text-align: right; }
+
+  /* CHAT */
+  .chat-fab { position: fixed; bottom: 2rem; right: 2rem; z-index: 200; width: 56px; height: 56px; background: var(--green); border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; box-shadow: 0 4px 24px rgba(34,197,94,0.45); transition: transform 0.2s; animation: glow-pulse 2.5s ease-in-out infinite; }
+  .chat-fab:hover { transform: scale(1.1); }
+  @keyframes glow-pulse { 0%,100%{box-shadow:0 4px 24px rgba(34,197,94,0.4)}50%{box-shadow:0 4px 40px rgba(34,197,94,0.75)} }
+  .chat-window { position: fixed; bottom: 5.5rem; right: 2rem; z-index: 200; width: 360px; background: var(--bg2); border: 1px solid var(--border-bright); border-radius: 14px; overflow: hidden; display: none; flex-direction: column; box-shadow: 0 20px 60px rgba(0,0,0,0.65); max-height: 510px; }
+  .chat-window.open { display: flex; }
+  .chat-header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0.9rem 1.1rem; display: flex; align-items: center; gap: 0.65rem; }
+  .chat-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--green-faint); border: 1px solid var(--border-bright); display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+  .chat-header-info { flex: 1; }
+  .chat-header-name { font-family: var(--font-mono); font-size: 0.78rem; font-weight: 700; color: var(--green); }
+  .chat-header-status { font-size: 0.65rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.3rem; }
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: blink-dot 1.5s ease-in-out infinite; }
+  .chat-close { background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 1rem; transition: color 0.2s; }
+  .chat-close:hover { color: var(--text); }
+  .chat-messages { flex: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: 0.7rem; max-height: 330px; }
+  .msg { max-width: 85%; font-size: 0.82rem; line-height: 1.55; padding: 0.58rem 0.85rem; border-radius: 10px; }
+  .msg-bot { background: var(--surface); border: 1px solid var(--border); color: var(--text-muted); align-self: flex-start; border-bottom-left-radius: 3px; }
+  .msg-user { background: var(--green); color: #030a05; align-self: flex-end; font-weight: 500; border-bottom-right-radius: 3px; }
+  .typing { display: flex; gap: 4px; align-items: center; }
+  .typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--text-dim); animation: blink-dot 1.2s ease-in-out infinite; }
+  .typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+  .chat-input-row { border-top: 1px solid var(--border); padding: 0.65rem; display: flex; gap: 0.5rem; }
+  .chat-input { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: var(--font-body); font-size: 0.82rem; padding: 0.48rem 0.7rem; outline: none; transition: border-color 0.2s; }
+  .chat-input:focus { border-color: var(--green); }
+  .chat-send { background: var(--green); border: none; border-radius: 6px; width: 34px; height: 34px; cursor: pointer; font-size: 0.88rem; display: flex; align-items: center; justify-content: center; transition: background 0.2s; flex-shrink: 0; }
+  .chat-send:hover { background: #4ade80; }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .about-grid, .contact-wrapper { grid-template-columns: 1fr; gap: 2.5rem; }
+    .exp-item { grid-template-columns: 1fr; }
+    .exp-date-col { text-align: left; }
+    .exp-line { display: none; }
+    .hero-visual { display: none; }
+    nav { padding: 0 4%; }
+    section { padding: 70px 5%; }
+    .form-row { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    footer { flex-direction: column; text-align: center; }
+    .footer-copy { text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">SP<span>.dev</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#certifications">Certs</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow"><span class="blink">●</span> Open to new opportunities</div>
+    <h1 class="hero-title">
+      Sairam Peravalli<br>
+      <span class="green">Senior Android Engineer</span>
+    </h1>
+    <p class="hero-subtitle">
+      8+ years building native Android apps across mobile, Android Automotive OS, Android TV, and smart display platforms. From Meta's Portal to SiriusXM's in-car experience — I ship products that scale.
+    </p>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num" data-target="8">0</span>
+        <span class="stat-label">+ Years Exp</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" data-target="3">0</span>
+        <span class="stat-label">Major Platforms</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" data-target="2">0</span>
+        <span class="stat-label">M+ Users Served</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" data-target="3">0</span>
+        <span class="stat-label">Top-Tier Companies</span>
+      </div>
+    </div>
+    <div class="hero-actions">
+      <a href="#experience" class="btn-primary">🚀 View My Work</a>
+      <a href="mailto:saiperv96@gmail.com" class="btn-ghost">📧 Get In Touch</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="screen-label">ANDROID · KOTLIN</div>
+        <div class="screen-bar"></div>
+        <div class="screen-bar"></div>
+        <div class="screen-bar"></div>
+        <div class="screen-bar"></div>
+        <div class="screen-chip">
+          <div class="screen-chip-dot"></div>
+          <div class="screen-chip-text">Jetpack Compose UI</div>
+        </div>
+        <div class="screen-chip" style="margin-top:4px">
+          <div class="screen-chip-dot" style="background:#60a5fa;"></div>
+          <div class="screen-chip-text">MVVM · Clean Arch</div>
+        </div>
+        <div class="screen-dots">
+          <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-eyebrow">👨‍💻 Who I Am</div>
+  <h2 class="section-title">About Me</h2>
+  <p class="section-sub">Senior Android engineer with a track record across consumer apps, smart displays, and automotive platforms.</p>
+
+  <div class="about-grid reveal">
+    <div class="about-text">
+      <p>
+        I'm a <strong>Senior Android Engineer with 8+ years of experience</strong> building production-grade native applications. My work spans mobile handsets, <strong>Android Automotive OS (AAOS)</strong>, Android TV, and Meta's Portal smart display family.
+      </p>
+      <p>
+        At <strong>SiriusXM</strong>, I develop and debug AAOS features across Now Playing, Browse, On-Demand, and For You — partnering with OEMs like Ford, BMW, Nissan, and GM. Before that, at <strong>Meta</strong> for over 6 years, I built Contacts, Calling, Messenger, and WhatsApp experiences on Portal devices serving millions of users worldwide.
+      </p>
+      <p>
+        I'm deeply hands-on with <strong>Kotlin, Jetpack Compose, Coroutines, Flow, MVVM, and Clean Architecture</strong>. I care about production stability, readable code, and building systems that hold up at scale.
+      </p>
+      <div class="about-chips">
+        <span class="chip">Kotlin</span>
+        <span class="chip">Jetpack Compose</span>
+        <span class="chip">AAOS</span>
+        <span class="chip">MVVM</span>
+        <span class="chip">Coroutines & Flow</span>
+        <span class="chip">Dallas, TX</span>
+      </div>
+    </div>
+
+    <div class="about-meta">
+      <div class="meta-card">
+        <div class="meta-card-label">Current Role</div>
+        <div class="meta-card-value">Android Developer @ SiriusXM</div>
+        <div class="meta-card-sub">Android Automotive OS · Nov 2024 – Present</div>
+      </div>
+      <div class="meta-card">
+        <div class="meta-card-label">Location</div>
+        <div class="meta-card-value">Dallas, TX</div>
+        <div class="meta-card-sub">Open to remote opportunities</div>
+      </div>
+      <div class="meta-card">
+        <div class="meta-card-label">Contact</div>
+        <div class="meta-card-value">saiperv96@gmail.com</div>
+        <div class="meta-card-sub">510.417.7068</div>
+      </div>
+      <div class="about-counters">
+        <div class="counter-box">
+          <div class="counter-num" data-target="8">0</div>
+          <div class="counter-label">Years Exp</div>
+        </div>
+        <div class="counter-box">
+          <div class="counter-num" data-target="3">0</div>
+          <div class="counter-label">Platforms</div>
+        </div>
+        <div class="counter-box">
+          <div class="counter-num" data-target="6">0</div>
+          <div class="counter-label">Years at Meta</div>
+        </div>
+        <div class="counter-box">
+          <div class="counter-num" data-target="7">0</div>
+          <div class="counter-label">OEM Partners</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-eyebrow">⚡ My Expertise</div>
+  <h2 class="section-title">Technical Expertise</h2>
+  <p class="section-sub">Full-stack Android knowledge — from Compose UI to automotive middleware and CI/CD pipelines.</p>
+
+  <div class="platforms-row reveal">
+    <div class="platform-badge"><span>📱</span> Android Mobile</div>
+    <div class="platform-badge"><span>🚗</span> Android Automotive OS</div>
+    <div class="platform-badge"><span>📺</span> Android TV</div>
+    <div class="platform-badge"><span>🖥️</span> Smart Displays</div>
+  </div>
+
+  <div class="skills-grid">
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">📱</div>
+      <div class="skill-card-title">Android UI</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Jetpack Compose</span>
+        <span class="skill-tag">XML Views</span>
+        <span class="skill-tag">Material Design</span>
+        <span class="skill-tag">Activities</span>
+        <span class="skill-tag">Fragments</span>
+        <span class="skill-tag">Custom Views</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">🏗️</div>
+      <div class="skill-card-title">Architecture</div>
+      <div class="skill-tags">
+        <span class="skill-tag">MVVM</span>
+        <span class="skill-tag">Clean Architecture</span>
+        <span class="skill-tag">MVI</span>
+        <span class="skill-tag">MVP</span>
+        <span class="skill-tag">Repository Pattern</span>
+        <span class="skill-tag">SOLID</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">⚙️</div>
+      <div class="skill-card-title">Jetpack & Core</div>
+      <div class="skill-tags">
+        <span class="skill-tag">ViewModel</span>
+        <span class="skill-tag">LiveData</span>
+        <span class="skill-tag">Flow</span>
+        <span class="skill-tag">Room</span>
+        <span class="skill-tag">WorkManager</span>
+        <span class="skill-tag">Navigation</span>
+        <span class="skill-tag">Paging</span>
+        <span class="skill-tag">DataStore</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">🚗</div>
+      <div class="skill-card-title">Android Automotive OS</div>
+      <div class="skill-tags">
+        <span class="skill-tag">AAOS</span>
+        <span class="skill-tag">MediaSession</span>
+        <span class="skill-tag">MediaBrowser</span>
+        <span class="skill-tag">Audio Focus</span>
+        <span class="skill-tag">OEM HMI Integration</span>
+        <span class="skill-tag">Playback State</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">🌐</div>
+      <div class="skill-card-title">Networking & DI</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Retrofit</span>
+        <span class="skill-tag">OkHttp</span>
+        <span class="skill-tag">REST APIs</span>
+        <span class="skill-tag">GraphQL</span>
+        <span class="skill-tag">Hilt</span>
+        <span class="skill-tag">Dagger</span>
+        <span class="skill-tag">Moshi</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">🧪</div>
+      <div class="skill-card-title">Testing & DevOps</div>
+      <div class="skill-tags">
+        <span class="skill-tag">JUnit</span>
+        <span class="skill-tag">Espresso</span>
+        <span class="skill-tag">Mockito / MockK</span>
+        <span class="skill-tag">Robolectric</span>
+        <span class="skill-tag">Gradle</span>
+        <span class="skill-tag">Jenkins</span>
+        <span class="skill-tag">CI/CD</span>
+        <span class="skill-tag">Crashlytics</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-eyebrow">🚀 My Journey</div>
+  <h2 class="section-title">Professional Journey</h2>
+  <p class="section-sub">From social music apps to automotive media — building Android at every scale.</p>
+
+  <div class="exp-timeline">
+
+    <!-- SiriusXM -->
+    <div class="exp-item reveal">
+      <div class="exp-date-col">
+        <div class="exp-date">Nov 2024 – Present</div>
+        <div class="exp-company">SiriusXM</div>
+        <div class="exp-location">Dallas, TX</div>
+      </div>
+      <div class="exp-line"></div>
+      <div class="exp-content">
+        <div class="exp-role">Android Developer</div>
+        <div class="exp-context">Android Automotive OS (AAOS) · Kotlin · Media · OEM Integrations</div>
+        <ul class="exp-bullets">
+          <li>Developed and maintained <strong>AAOS app features</strong> across Now Playing, Browse, Categories, Sports, On-Demand, Xtra, Live, and For You experiences</li>
+          <li>Investigated <strong>MediaSession, MediaBrowser, playback state, and custom media action</strong> issues impacting OEM HMI behavior</li>
+          <li>Debugged audio focus, source switching, and playback lifecycle issues using Android framework and platform logs</li>
+          <li>Supported OEM-specific integrations for automotive programs including <strong>Ford, BMW, Nissan, Lucid, Hyundai, Mazda, and GM</strong></li>
+          <li>Analyzed ActivityTaskManager, WindowManager, and InputDispatcher logs for cross-team root cause analysis</li>
+          <li>Validated behavior across emulator, system images, and target hardware with ADB and Logcat</li>
+        </ul>
+        <div class="exp-stats">
+          <div class="exp-stat"><span class="exp-stat-num">7+</span><span class="exp-stat-lbl">OEM Partners</span></div>
+          <div class="exp-stat"><span class="exp-stat-num">AAOS</span><span class="exp-stat-lbl">Platform</span></div>
+        </div>
+        <div class="exp-tech">
+          <span class="tech-tag">Kotlin</span><span class="tech-tag">AAOS</span><span class="tech-tag">MediaSession</span>
+          <span class="tech-tag">MediaBrowser</span><span class="tech-tag">ADB</span><span class="tech-tag">Logcat</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Meta -->
+    <div class="exp-item reveal">
+      <div class="exp-date-col">
+        <div class="exp-date">Aug 2018 – Nov 2024</div>
+        <div class="exp-company">Meta Platforms</div>
+        <div class="exp-location">Burlingame, CA</div>
+      </div>
+      <div class="exp-line"></div>
+      <div class="exp-content">
+        <div class="exp-role">Android Developer</div>
+        <div class="exp-context">Portal Smart Displays · Android TV · Messenger / WhatsApp / Alexa</div>
+        <ul class="exp-bullets">
+          <li>Developed and maintained Android apps for <strong>Portal smart displays and Android TV</strong> — Contacts, Calling, Settings, Messenger, WhatsApp, and Alexa experiences</li>
+          <li><strong>Migrated key UI flows from XML to Jetpack Compose</strong>, creating reusable composables, dark-mode support, and scalable UI patterns</li>
+          <li>Implemented <strong>MVVM and Clean Architecture</strong> with ViewModel, LiveData, Room, Coroutines, Flow, and lifecycle-aware components</li>
+          <li>Built reactive data pipelines using Kotlin Coroutines and Flow for async ops and lifecycle-safe background work</li>
+          <li>Debugged production crashes and device-level issues related to boot, Wi-Fi, calling, and app startup using DDMS, MAT, and Profilers</li>
+          <li>Contributed to migration from <strong>MVP to Kotlin MVVM</strong>, improving testability and separation of concerns</li>
+        </ul>
+        <div class="exp-stats">
+          <div class="exp-stat"><span class="exp-stat-num">6</span><span class="exp-stat-lbl">Years</span></div>
+          <div class="exp-stat"><span class="exp-stat-num">2M+</span><span class="exp-stat-lbl">Users</span></div>
+          <div class="exp-stat"><span class="exp-stat-num">TV + Display</span><span class="exp-stat-lbl">Platforms</span></div>
+        </div>
+        <div class="exp-tech">
+          <span class="tech-tag">Kotlin</span><span class="tech-tag">Jetpack Compose</span><span class="tech-tag">MVVM</span>
+          <span class="tech-tag">Coroutines</span><span class="tech-tag">Flow</span><span class="tech-tag">GraphQL</span><span class="tech-tag">Room</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Smule -->
+    <div class="exp-item reveal">
+      <div class="exp-date-col">
+        <div class="exp-date">Feb 2018 – Aug 2018</div>
+        <div class="exp-company">Smule</div>
+        <div class="exp-location">San Francisco, CA</div>
+      </div>
+      <div class="exp-line"></div>
+      <div class="exp-content">
+        <div class="exp-role">Android Application Developer</div>
+        <div class="exp-context">Sing App – Social music app for singing, recording, and sharing</div>
+        <ul class="exp-bullets">
+          <li>Built and maintained features for the <strong>Smule Sing Android app</strong> — a high-traffic social music platform</li>
+          <li>Integrated <strong>Facebook APIs</strong> for login, user profile access, auto-sharing, and token refresh flows</li>
+          <li>Fixed production crashes using Firebase Crashlytics, Logcat, and QA feedback loops</li>
+          <li>Configured and supported <strong>Jenkins CI builds</strong> for multiple environments and release workflows</li>
+        </ul>
+        <div class="exp-tech">
+          <span class="tech-tag">Java</span><span class="tech-tag">Android SDK</span><span class="tech-tag">XML Layouts</span>
+          <span class="tech-tag">Crashlytics</span><span class="tech-tag">Jenkins</span><span class="tech-tag">Jira</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-eyebrow">🎓 My Education</div>
+  <h2 class="section-title">Education</h2>
+  <p class="section-sub">Multi-disciplinary academic background spanning engineering, computer science, and technology management.</p>
+
+  <div class="edu-grid">
+    <div class="edu-card reveal">
+      <span class="edu-card-badge">Master's</span>
+      <div class="edu-degree">M.S. Information Technology Management</div>
+      <div class="edu-school">Campbellsville University, KY</div>
+      <div class="edu-years">2016 – 2018</div>
+      <ul class="edu-highlights">
+        <li>Technology strategy & IT management</li>
+        <li>Project management & Agile methodologies</li>
+        <li>Systems analysis and enterprise architecture</li>
+      </ul>
+    </div>
+    <div class="edu-card reveal">
+      <span class="edu-card-badge">Master's</span>
+      <div class="edu-degree">M.S. Computer Science</div>
+      <div class="edu-school">SFBU, Fremont, CA</div>
+      <div class="edu-years">2014 – 2016</div>
+      <ul class="edu-highlights">
+        <li>Algorithms, data structures, and OS internals</li>
+        <li>Distributed systems and cloud computing</li>
+        <li>Software engineering principles</li>
+      </ul>
+    </div>
+    <div class="edu-card reveal">
+      <span class="edu-card-badge">Bachelor's</span>
+      <div class="edu-degree">B.E. Mechanical Engineering</div>
+      <div class="edu-school">India</div>
+      <div class="edu-years">2010 – 2014</div>
+      <ul class="edu-highlights">
+        <li>Strong analytical and problem-solving foundation</li>
+        <li>Physics, mathematics, and systems thinking</li>
+        <li>Engineering design and documentation</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="section-eyebrow">🏆 My Credentials</div>
+  <h2 class="section-title">Certifications</h2>
+  <p class="section-sub">Recognized credentials in AI, Agile, and enterprise software delivery.</p>
+
+  <div class="certs-grid">
+    <div class="cert-card reveal">
+      <div class="cert-icon">🤖</div>
+      <div>
+        <div class="cert-title">AI For Everyone</div>
+        <div class="cert-issuer">Coursera</div>
+        <div class="cert-date">Issued Jul 2024</div>
+      </div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-icon">⚡</div>
+      <div>
+        <div class="cert-title">Certified SAFe® 5 Practitioner</div>
+        <div class="cert-issuer">Scaled Agile, Inc.</div>
+        <div class="cert-date">Issued Apr 2022</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-eyebrow">📞 Get In Touch</div>
+  <h2 class="section-title">Let's Connect</h2>
+  <p class="section-sub">Open to senior Android roles — mobile, automotive, TV, or smart display platforms.</p>
+
+  <div class="contact-wrapper reveal">
+    <div>
+      <p class="contact-intro">
+        Whether you have a senior Android opportunity, want to discuss architecture, or just talk Kotlin — I'm always happy to connect. I typically respond within 24 hours.
+      </p>
+      <div class="contact-items">
+        <div class="contact-item">
+          <div class="contact-item-icon">✉️</div>
+          <div>
+            <div class="contact-item-label">Email</div>
+            <div class="contact-item-value">saiperv96@gmail.com</div>
+            <div class="contact-item-sub">Preferred for initial contact</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📞</div>
+          <div>
+            <div class="contact-item-label">Phone</div>
+            <div class="contact-item-value">510.417.7068</div>
+            <div class="contact-item-sub">Available during business hours</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📍</div>
+          <div>
+            <div class="contact-item-label">Location</div>
+            <div class="contact-item-value">Dallas, TX</div>
+            <div class="contact-item-sub">Open to remote opportunities</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">💼</div>
+          <div>
+            <div class="contact-item-label">Availability</div>
+            <div class="contact-item-value">Open to new roles</div>
+            <div class="contact-item-sub">Senior Android · AAOS · Android TV · Mobile</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Name</label>
+          <input class="form-input" type="text" placeholder="Your name"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-input" type="email" placeholder="your@email.com"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Subject</label>
+        <input class="form-input" type="text" placeholder="Android role, collaboration, etc."/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Message</label>
+        <textarea class="form-textarea" placeholder="Tell me about the opportunity or what you're building…"></textarea>
+      </div>
+      <button class="btn-primary" style="align-self:flex-start" onclick="alert('Thanks! Sairam will reply within 24 hours.')">Send Message →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-name">Sairam <span>Peravalli</span></div>
+    <div class="footer-sub">Senior Android Engineer · Dallas, TX</div>
+  </div>
+  <div class="footer-links">
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#experience">Experience</a>
+    <a href="#education">Education</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="footer-copy">
+    © 2025 Sairam Peravalli. All rights reserved.<br>
+    <span style="color:var(--text-dim)">Built for Android, by an Android dev ✦</span>
+  </div>
+</footer>
+
+<!-- AI CHAT FAB -->
+<button class="chat-fab" id="chatFab">🤖</button>
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    <div class="chat-avatar">🤖</div>
+    <div class="chat-header-info">
+      <div class="chat-header-name">AI Assistant</div>
+      <div class="chat-header-status"><span class="status-dot"></span> Ask me about Sairam</div>
+    </div>
+    <button class="chat-close" id="chatClose">✕</button>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="msg msg-bot">Hey! 👋 I'm Sairam's AI assistant. Ask me about his Android experience, skills, or background!</div>
+  </div>
+  <div class="chat-input-row">
+    <input class="chat-input" id="chatInput" type="text" placeholder="Ask something…"/>
+    <button class="chat-send" id="chatSend">➤</button>
+  </div>
+</div>
+
+<script>
+// Counter animation
+const observed = new Set();
+function animateCounter(el) {
+  const target = parseInt(el.dataset.target);
+  const start = performance.now();
+  const duration = 1400;
+  const update = (now) => {
+    const p = Math.min((now - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(ease * target);
+    if (p < 1) requestAnimationFrame(update);
+  };
+  requestAnimationFrame(update);
+}
+
+// Scroll reveal
+const revealEls = document.querySelectorAll('.reveal');
+const counterEls = document.querySelectorAll('[data-target]');
+
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+revealEls.forEach(el => revealObs.observe(el));
+
+const counterObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !observed.has(e.target)) {
+      observed.add(e.target);
+      animateCounter(e.target);
+    }
+  });
+}, { threshold: 0.5 });
+counterEls.forEach(el => counterObs.observe(el));
+
+// Active nav
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) cur = s.id; });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + cur);
+  });
+}, { passive: true });
+
+// AI Chat
+const fab = document.getElementById('chatFab');
+const win = document.getElementById('chatWindow');
+const closeBtn = document.getElementById('chatClose');
+const input = document.getElementById('chatInput');
+const sendBtn = document.getElementById('chatSend');
+const msgs = document.getElementById('chatMessages');
+
+fab.addEventListener('click', () => win.classList.toggle('open'));
+closeBtn.addEventListener('click', () => win.classList.remove('open'));
+
+const kb = {
+  greet: ["Hi! Ask me anything about Sairam's Android engineering experience.", "Hello! I can tell you about Sairam's skills, experience, or background."],
+  experience: ["Sairam has 8+ years of Android experience. Currently at SiriusXM (Nov 2024–present) on Android Automotive OS, and previously 6 years at Meta building Portal smart display apps (2018–2024). He also worked at Smule in 2018."],
+  skills: ["Sairam's core stack: Kotlin, Jetpack Compose, MVVM & Clean Architecture, Coroutines & Flow, Hilt, Room, Retrofit, and extensive Android Automotive OS experience (MediaSession, MediaBrowser, OEM HMI)."],
+  automotive: ["At SiriusXM, Sairam works on Android Automotive OS (AAOS) — debugging MediaSession, MediaBrowser, audio focus, playback state, and OEM HMI integrations for partners like Ford, BMW, Nissan, Lucid, Hyundai, Mazda, and GM."],
+  meta: ["At Meta for 6 years (2018–2024), Sairam built Contacts, Calling, Settings, Messenger, WhatsApp, and Alexa experiences for Portal smart displays and Android TV. He migrated XML UIs to Jetpack Compose and helped move the codebase from MVP to MVVM."],
+  education: ["Sairam holds an M.S. in Information Technology Management (Campbellsville University), an M.S. in Computer Science (SFBU), and a B.E. in Mechanical Engineering."],
+  contact: ["You can reach Sairam at saiperv96@gmail.com or call 510.417.7068. He's based in Dallas, TX and open to remote opportunities."],
+  certs: ["Sairam holds two certifications: AI For Everyone (Coursera, Jul 2024) and Certified SAFe® 5 Practitioner (Scaled Agile, Apr 2022)."],
+  default: [
+    "Sairam is a Senior Android Engineer with 8+ years of experience across mobile, AAOS, Android TV, and smart displays.",
+    "He's worked at top companies: Meta (6 years on Portal devices) and SiriusXM (Android Automotive OS with OEM partners like Ford, BMW).",
+    "His strongest skills are Kotlin, Jetpack Compose, MVVM/Clean Architecture, and Android Automotive OS development.",
+    "Sairam is based in Dallas, TX and open to new senior Android opportunities — remote or otherwise.",
+    "At Meta, he built video-calling and messaging apps for Portal smart displays serving millions of users worldwide."
+  ]
+};
+
+function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+function reply(text) {
+  const t = text.toLowerCase();
+  if (t.match(/hi|hello|hey/)) return pick(kb.greet);
+  if (t.match(/automotive|aaos|sirius|oem|ford|bmw|car/)) return kb.automotive[0];
+  if (t.match(/meta|portal|facebook|whatsapp|messenger|alexa/)) return kb.meta[0];
+  if (t.match(/skill|tech|kotlin|compose|language|stack/)) return kb.skills[0];
+  if (t.match(/experience|work|job|career|company/)) return kb.experience[0];
+  if (t.match(/edu|school|degree|university|study/)) return kb.education[0];
+  if (t.match(/cert|certif|safe|agile|ai for/)) return kb.certs[0];
+  if (t.match(/contact|email|phone|reach|hire|available/)) return kb.contact[0];
+  return pick(kb.default);
+}
+
+function addMsg(text, isUser) {
+  const d = document.createElement('div');
+  d.className = 'msg ' + (isUser ? 'msg-user' : 'msg-bot');
+  d.textContent = text;
+  msgs.appendChild(d);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+function addTyping() {
+  const d = document.createElement('div');
+  d.className = 'msg msg-bot'; d.id = 'typing';
+  d.innerHTML = '<div class="typing"><span></span><span></span><span></span></div>';
+  msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight;
+  return d;
+}
+async function send() {
+  const text = input.value.trim(); if (!text) return;
+  input.value = '';
+  addMsg(text, true);
+  const t = addTyping();
+  await new Promise(r => setTimeout(r, 800 + Math.random() * 500));
+  t.remove(); addMsg(reply(text), false);
+}
+sendBtn.addEventListener('click', send);
+input.addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
+</script>
+</body>
+</html>
