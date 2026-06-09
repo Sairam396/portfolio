@@ -219,26 +219,42 @@
   @keyframes glow-pulse { 0%,100%{box-shadow:0 4px 24px rgba(34,197,94,0.4)}50%{box-shadow:0 4px 40px rgba(34,197,94,0.75)} }
   .chat-window { position: fixed; bottom: 5.5rem; right: 2rem; z-index: 200; width: 360px; background: var(--bg2); border: 1px solid var(--border-bright); border-radius: 14px; overflow: hidden; display: none; flex-direction: column; box-shadow: 0 20px 60px rgba(0,0,0,0.65); max-height: 510px; }
   .chat-window.open { display: flex; }
-  .chat-header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0.9rem 1.1rem; display: flex; align-items: center; gap: 0.65rem; }
-  .chat-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--green-faint); border: 1px solid var(--border-bright); display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+  .chat-header {
+    background: linear-gradient(135deg, #1a3a24 0%, #0f2018 100%);
+    border-bottom: 1px solid var(--border-bright);
+    padding: 0.85rem 1.1rem; display: flex; align-items: center; gap: 0.7rem;
+  }
+  .chat-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--green-faint); border: 2px solid var(--green); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
   .chat-header-info { flex: 1; }
-  .chat-header-name { font-family: var(--font-mono); font-size: 0.78rem; font-weight: 700; color: var(--green); }
-  .chat-header-status { font-size: 0.65rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.3rem; }
-  .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: blink-dot 1.5s ease-in-out infinite; }
-  .chat-close { background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 1rem; transition: color 0.2s; }
-  .chat-close:hover { color: var(--text); }
-  .chat-messages { flex: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: 0.7rem; max-height: 330px; }
-  .msg { max-width: 85%; font-size: 0.82rem; line-height: 1.55; padding: 0.58rem 0.85rem; border-radius: 10px; }
-  .msg-bot { background: var(--surface); border: 1px solid var(--border); color: var(--text-muted); align-self: flex-start; border-bottom-left-radius: 3px; }
-  .msg-user { background: var(--green); color: #030a05; align-self: flex-end; font-weight: 500; border-bottom-right-radius: 3px; }
-  .typing { display: flex; gap: 4px; align-items: center; }
+  .chat-header-name { font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700; color: var(--text); }
+  .chat-header-status { font-size: 0.65rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.3rem; margin-top: 0.1rem; }
+  .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: blink-dot 1.5s ease-in-out infinite; flex-shrink: 0; }
+  .chat-header-actions { display: flex; gap: 0.4rem; }
+  .chat-icon-btn { background: rgba(34,197,94,0.1); border: 1px solid var(--border); border-radius: 6px; width: 28px; height: 28px; cursor: pointer; color: var(--text-muted); font-size: 0.75rem; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+  .chat-icon-btn:hover { color: var(--green); border-color: var(--green); }
+  .chat-messages { flex: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; max-height: 300px; background: var(--bg); }
+  .msg-wrap { display: flex; flex-direction: column; gap: 0.2rem; }
+  .msg-wrap.user-wrap { align-items: flex-end; }
+  .msg-wrap.bot-wrap { align-items: flex-start; }
+  .msg { max-width: 85%; font-size: 0.82rem; line-height: 1.6; padding: 0.65rem 0.9rem; border-radius: 14px; }
+  .msg-bot { background: var(--surface); border: 1px solid var(--border); color: var(--text); border-bottom-left-radius: 4px; }
+  .msg-user { background: var(--green); color: #030a05; font-weight: 600; border-bottom-right-radius: 4px; }
+  .msg-time { font-family: var(--font-mono); font-size: 0.58rem; color: var(--text-dim); padding: 0 0.3rem; }
+  .typing { display: flex; gap: 4px; align-items: center; padding: 0.2rem 0; }
   .typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--text-dim); animation: blink-dot 1.2s ease-in-out infinite; }
   .typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
-  .chat-input-row { border-top: 1px solid var(--border); padding: 0.65rem; display: flex; gap: 0.5rem; }
-  .chat-input { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: var(--font-body); font-size: 0.82rem; padding: 0.48rem 0.7rem; outline: none; transition: border-color 0.2s; }
+  .chat-suggestions { border-top: 1px solid var(--border); padding: 0.75rem 0.9rem; background: var(--bg2); }
+  .chat-suggestions-label { font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.35rem; }
+  .chat-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .chat-chip { font-size: 0.74rem; color: var(--green); background: var(--green-faint); border: 1px solid var(--border-bright); border-radius: 20px; padding: 0.28rem 0.75rem; cursor: pointer; transition: all 0.18s; font-family: var(--font-body); white-space: nowrap; }
+  .chat-chip:hover { background: rgba(34,197,94,0.18); border-color: var(--green); }
+  .chat-input-row { border-top: 1px solid var(--border); padding: 0.7rem 0.9rem; display: flex; gap: 0.55rem; background: var(--bg2); align-items: center; }
+  .chat-input { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; color: var(--text); font-family: var(--font-body); font-size: 0.82rem; padding: 0.52rem 1rem; outline: none; transition: border-color 0.2s; }
+  .chat-input::placeholder { color: var(--text-dim); }
   .chat-input:focus { border-color: var(--green); }
-  .chat-send { background: var(--green); border: none; border-radius: 6px; width: 34px; height: 34px; cursor: pointer; font-size: 0.88rem; display: flex; align-items: center; justify-content: center; transition: background 0.2s; flex-shrink: 0; }
-  .chat-send:hover { background: #4ade80; }
+  .chat-send { background: var(--green); border: none; border-radius: 50%; width: 36px; height: 36px; cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; transition: background 0.2s, transform 0.15s; flex-shrink: 0; }
+  .chat-send:hover { background: #4ade80; transform: scale(1.08); }
+  .chat-powered { font-family: var(--font-mono); font-size: 0.58rem; color: var(--text-dim); text-align: center; padding: 0.35rem; background: var(--bg2); }
 
   /* REVEAL */
   .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s ease; }
@@ -744,7 +760,7 @@
     <a href="#contact">Contact</a>
   </div>
   <div class="footer-copy">
-    © 2025 Sairam Peravalli. All rights reserved.<br>
+    © 2026 Sairam Peravalli. All rights reserved.<br>
     <span style="color:var(--text-dim)">Built for Android, by an Android dev ✦</span>
   </div>
 </footer>
@@ -755,18 +771,34 @@
   <div class="chat-header">
     <div class="chat-avatar">🤖</div>
     <div class="chat-header-info">
-      <div class="chat-header-name">AI Assistant</div>
-      <div class="chat-header-status"><span class="status-dot"></span> Ask me about Sairam</div>
+      <div class="chat-header-name">Sairam's AI Assistant</div>
+      <div class="chat-header-status"><span class="status-dot"></span> Online &nbsp;·&nbsp; <span id="msgCount">1 message</span></div>
     </div>
-    <button class="chat-close" id="chatClose">✕</button>
+    <div class="chat-header-actions">
+      <button class="chat-icon-btn" id="chatRefresh" title="Clear chat">↺</button>
+      <button class="chat-icon-btn" id="chatClose">✕</button>
+    </div>
   </div>
   <div class="chat-messages" id="chatMessages">
-    <div class="msg msg-bot">Hey! 👋 I'm Sairam's AI assistant. Ask me about his Android experience, skills, or background!</div>
+    <div class="msg-wrap bot-wrap">
+      <div class="msg msg-bot">👋 Hi! I'm Sairam's AI assistant. I can help you learn about his experience, skills, and more. What would you like to know?</div>
+      <div class="msg-time" id="initTime"></div>
+    </div>
+  </div>
+  <div class="chat-suggestions" id="chatSuggestions">
+    <div class="chat-suggestions-label">💡 Try these popular questions:</div>
+    <div class="chat-chips">
+      <span class="chat-chip" data-q="Tell me about his experience">Tell me about his experience</span>
+      <span class="chat-chip" data-q="What are his technical skills?">What are his technical skills?</span>
+      <span class="chat-chip" data-q="Tell me about his work at Meta">Work at Meta</span>
+      <span class="chat-chip" data-q="Tell me about AAOS work">AAOS & Automotive</span>
+    </div>
   </div>
   <div class="chat-input-row">
-    <input class="chat-input" id="chatInput" type="text" placeholder="Ask something…"/>
+    <input class="chat-input" id="chatInput" type="text" placeholder="Ask me anything about Sairam…"/>
     <button class="chat-send" id="chatSend">➤</button>
   </div>
+  <div class="chat-powered">Press Enter to send · Powered by AI 🤖</div>
 </div>
 
 <script>
@@ -819,25 +851,42 @@ window.addEventListener('scroll', () => {
 const fab = document.getElementById('chatFab');
 const win = document.getElementById('chatWindow');
 const closeBtn = document.getElementById('chatClose');
+const refreshBtn = document.getElementById('chatRefresh');
 const input = document.getElementById('chatInput');
 const sendBtn = document.getElementById('chatSend');
 const msgs = document.getElementById('chatMessages');
+const suggestions = document.getElementById('chatSuggestions');
+const msgCountEl = document.getElementById('msgCount');
+const initTimeEl = document.getElementById('initTime');
 
+// Set initial timestamp
+function fmtTime(d) {
+  return d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+}
+initTimeEl.textContent = fmtTime(new Date());
+
+let msgCount = 1;
 fab.addEventListener('click', () => win.classList.toggle('open'));
 closeBtn.addEventListener('click', () => win.classList.remove('open'));
+refreshBtn.addEventListener('click', () => {
+  msgs.innerHTML = `<div class="msg-wrap bot-wrap"><div class="msg msg-bot">👋 Hi! I'm Sairam's AI assistant. I can help you learn about his experience, skills, and more. What would you like to know?</div><div class="msg-time">${fmtTime(new Date())}</div></div>`;
+  suggestions.style.display = '';
+  msgCount = 1;
+  msgCountEl.textContent = '1 message';
+});
 
 const kb = {
-  greet: ["Hi! Ask me anything about Sairam's Android engineering experience.", "Hello! I can tell you about Sairam's skills, experience, or background."],
-  experience: ["Sairam has 8+ years of Android experience. Currently at SiriusXM (Nov 2024–present) on Android Automotive OS, and previously 6 years at Meta building Portal smart display apps (2018–2024). He also worked at Smule in 2018."],
-  skills: ["Sairam's core stack: Kotlin, Jetpack Compose, MVVM & Clean Architecture, Coroutines & Flow, Hilt, Room, Retrofit, and extensive Android Automotive OS experience (MediaSession, MediaBrowser, OEM HMI)."],
+  greet: ["Hi there! 👋 Ask me anything about Sairam's Android engineering experience.", "Hello! I can tell you about Sairam's skills, experience, or background."],
+  experience: ["Sairam has 8+ years of Android experience. Currently at SiriusXM (Nov 2024–present) on Android Automotive OS, and previously 6 years at Meta building Portal smart display apps (2018–2024). He also worked at Smule in early 2018."],
+  skills: ["Sairam's core stack: Kotlin, Jetpack Compose, MVVM & Clean Architecture, Coroutines & Flow, Hilt, Room, Retrofit, and extensive Android Automotive OS experience including MediaSession, MediaBrowser, and OEM HMI integrations."],
   automotive: ["At SiriusXM, Sairam works on Android Automotive OS (AAOS) — debugging MediaSession, MediaBrowser, audio focus, playback state, and OEM HMI integrations for partners like Ford, BMW, Nissan, Lucid, Hyundai, Mazda, and GM."],
   meta: ["At Meta for 6 years (2018–2024), Sairam built Contacts, Calling, Settings, Messenger, WhatsApp, and Alexa experiences for Portal smart displays and Android TV. He migrated XML UIs to Jetpack Compose and helped move the codebase from MVP to MVVM."],
-  education: ["Sairam holds an M.S. in Information Technology Management (Campbellsville University), an M.S. in Computer Science (SFBU), and a B.E. in Mechanical Engineering."],
+  education: ["Sairam holds an M.S. in Information Technology Management (Campbellsville University), an M.S. in Computer Science (SFBU, Fremont CA), and a B.E. in Mechanical Engineering from India."],
   contact: ["You can reach Sairam at saiperv96@gmail.com or call 510.417.7068. He's based in Dallas, TX and open to remote opportunities."],
   certs: ["Sairam holds two certifications: AI For Everyone (Coursera, Jul 2024) and Certified SAFe® 5 Practitioner (Scaled Agile, Apr 2022)."],
   default: [
     "Sairam is a Senior Android Engineer with 8+ years of experience across mobile, AAOS, Android TV, and smart displays.",
-    "He's worked at top companies: Meta (6 years on Portal devices) and SiriusXM (Android Automotive OS with OEM partners like Ford, BMW).",
+    "He's worked at top companies: Meta (6 years on Portal devices) and SiriusXM (AAOS with OEM partners like Ford, BMW, Nissan).",
     "His strongest skills are Kotlin, Jetpack Compose, MVVM/Clean Architecture, and Android Automotive OS development.",
     "Sairam is based in Dallas, TX and open to new senior Android opportunities — remote or otherwise.",
     "At Meta, he built video-calling and messaging apps for Portal smart displays serving millions of users worldwide."
@@ -847,7 +896,6 @@ const kb = {
 function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 function reply(text) {
   const t = text.toLowerCase();
-  if (t.match(/hi|hello|hey/)) return pick(kb.greet);
   if (t.match(/automotive|aaos|sirius|oem|ford|bmw|car/)) return kb.automotive[0];
   if (t.match(/meta|portal|facebook|whatsapp|messenger|alexa/)) return kb.meta[0];
   if (t.match(/skill|tech|kotlin|compose|language|stack/)) return kb.skills[0];
@@ -855,33 +903,54 @@ function reply(text) {
   if (t.match(/edu|school|degree|university|study/)) return kb.education[0];
   if (t.match(/cert|certif|safe|agile|ai for/)) return kb.certs[0];
   if (t.match(/contact|email|phone|reach|hire|available/)) return kb.contact[0];
+  if (t.match(/hi|hello|hey/)) return pick(kb.greet);
   return pick(kb.default);
 }
 
 function addMsg(text, isUser) {
+  const wrap = document.createElement('div');
+  wrap.className = 'msg-wrap ' + (isUser ? 'user-wrap' : 'bot-wrap');
   const d = document.createElement('div');
   d.className = 'msg ' + (isUser ? 'msg-user' : 'msg-bot');
   d.textContent = text;
-  msgs.appendChild(d);
+  const t = document.createElement('div');
+  t.className = 'msg-time';
+  t.textContent = fmtTime(new Date());
+  wrap.appendChild(d);
+  wrap.appendChild(t);
+  msgs.appendChild(wrap);
   msgs.scrollTop = msgs.scrollHeight;
+  msgCount++;
+  msgCountEl.textContent = msgCount + ' message' + (msgCount !== 1 ? 's' : '');
 }
+
 function addTyping() {
-  const d = document.createElement('div');
-  d.className = 'msg msg-bot'; d.id = 'typing';
-  d.innerHTML = '<div class="typing"><span></span><span></span><span></span></div>';
-  msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight;
-  return d;
+  const wrap = document.createElement('div');
+  wrap.className = 'msg-wrap bot-wrap'; wrap.id = 'typing';
+  wrap.innerHTML = '<div class="msg msg-bot"><div class="typing"><span></span><span></span><span></span></div></div>';
+  msgs.appendChild(wrap); msgs.scrollTop = msgs.scrollHeight;
+  return wrap;
 }
-async function send() {
-  const text = input.value.trim(); if (!text) return;
+
+async function send(text) {
+  text = (text || input.value).trim();
+  if (!text) return;
   input.value = '';
+  suggestions.style.display = 'none';
   addMsg(text, true);
   const t = addTyping();
-  await new Promise(r => setTimeout(r, 800 + Math.random() * 500));
-  t.remove(); addMsg(reply(text), false);
+  await new Promise(r => setTimeout(r, 700 + Math.random() * 600));
+  t.remove();
+  addMsg(reply(text), false);
 }
-sendBtn.addEventListener('click', send);
+
+sendBtn.addEventListener('click', () => send());
 input.addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
+
+// Suggestion chips
+document.querySelectorAll('.chat-chip').forEach(chip => {
+  chip.addEventListener('click', () => send(chip.dataset.q));
+});
 </script>
 </body>
 </html>
