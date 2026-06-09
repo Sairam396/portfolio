@@ -374,7 +374,7 @@
         <span class="chip">AAOS</span>
         <span class="chip">MVVM</span>
         <span class="chip">Coroutines & Flow</span>
-        <span class="chip">Dallas, TX</span>
+        <span class="chip">Livermore, CA</span>
       </div>
     </div>
 
@@ -386,7 +386,7 @@
       </div>
       <div class="meta-card">
         <div class="meta-card-label">Location</div>
-        <div class="meta-card-value">Dallas, TX</div>
+        <div class="meta-card-value">Livermore, CA</div>
         <div class="meta-card-sub">Open to remote opportunities</div>
       </div>
       <div class="meta-card">
@@ -741,7 +741,9 @@
         <label class="form-label">Message</label>
         <textarea class="form-textarea" placeholder="Tell me about the opportunity or what you're building…"></textarea>
       </div>
-      <button class="btn-primary" style="align-self:flex-start" onclick="alert('Thanks! Sairam will reply within 24 hours.')">Send Message →</button>
+      <div id="formError" style="display:none;font-family:var(--font-mono);font-size:0.72rem;color:#f87171;background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.25);border-radius:5px;padding:0.5rem 0.85rem;"></div>
+      <div id="formSuccess" style="display:none;font-family:var(--font-mono);font-size:0.72rem;color:var(--green);background:var(--green-faint);border:1px solid var(--border-bright);border-radius:5px;padding:0.5rem 0.85rem;">✓ Thanks! Sairam will reply within 24 hours.</div>
+      <button class="btn-primary" style="align-self:flex-start" id="contactSubmit">Send Message →</button>
     </div>
   </div>
 </section>
@@ -750,7 +752,7 @@
 <footer>
   <div>
     <div class="footer-name">Sairam <span>Peravalli</span></div>
-    <div class="footer-sub">Senior Android Engineer · Dallas, TX</div>
+    <div class="footer-sub">Senior Android Engineer · Livermore, CA</div>
   </div>
   <div class="footer-links">
     <a href="#about">About</a>
@@ -802,6 +804,37 @@
 </div>
 
 <script>
+// Contact form validation
+document.getElementById('contactSubmit').addEventListener('click', () => {
+  const name = document.getElementById('fName').value.trim();
+  const email = document.getElementById('fEmail').value.trim();
+  const subject = document.getElementById('fSubject').value.trim();
+  const message = document.getElementById('fMessage').value.trim();
+  const errEl = document.getElementById('formError');
+  const sucEl = document.getElementById('formSuccess');
+  sucEl.style.display = 'none';
+  errEl.style.display = 'none';
+
+  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  let error = '';
+  if (!name) error = 'Please enter your name.';
+  else if (!email) error = 'Please enter your email address.';
+  else if (!emailValid) error = 'Please enter a valid email address.';
+  else if (!subject) error = 'Please enter a subject.';
+  else if (!message) error = 'Please write a message before sending.';
+
+  if (error) {
+    errEl.textContent = '⚠ ' + error;
+    errEl.style.display = 'block';
+    return;
+  }
+  sucEl.style.display = 'block';
+  document.getElementById('fName').value = '';
+  document.getElementById('fEmail').value = '';
+  document.getElementById('fSubject').value = '';
+  document.getElementById('fMessage').value = '';
+});
+
 // Counter animation
 const observed = new Set();
 function animateCounter(el) {
