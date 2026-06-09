@@ -708,7 +708,7 @@
           <div>
             <div class="contact-item-label">Location</div>
             <div class="contact-item-value">Dallas, TX</div>
-            <div class="contact-item-sub">Open to remote opportunities</div>
+            <div class="contact-item-sub">Open to new roles anywhere in the USA</div>
           </div>
         </div>
         <div class="contact-item">
@@ -969,12 +969,14 @@ async function send(text) {
   text = (text || input.value).trim();
   if (!text) return;
   input.value = '';
+  sendBtn.disabled = true;
   suggestions.style.display = 'none';
   addMsg(text, true);
   const t = addTyping();
-  await new Promise(r => setTimeout(r, 700 + Math.random() * 600));
+  const answer = await reply(text);
   t.remove();
-  addMsg(reply(text), false);
+  addMsg(answer, false);
+  sendBtn.disabled = false;
 }
 
 sendBtn.addEventListener('click', () => send());
